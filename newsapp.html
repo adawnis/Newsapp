@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NEWS APP</title>
+        
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Yantramanav|Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+        
+        <meta charset="utf-8">
+        
+        <style type="text/css">
+           
+            body{
+                background: #AAA;
+                height: 100vh;
+                font-family: 'Raleway', sans-serif;
+            }
+            .container{
+                background: #EEE;
+                width: 100%;
+                max-width: 450px;
+                height: 100%;
+                min-height: 750px;
+                border: 1px solid #DDD;
+                margin: 30px auto;
+                padding: 50px;
+                padding-top: 0;
+            }
+          
+          
+        </style>
+    </head>
+    
+    <body>
+        
+        <div class="container">
+            <h3>NEWS STATIONS</h3>
+            
+            <div class="form">
+                <select id="selector">
+                    <option value="abc-news-au">ABC News (AU)</option>
+                    <option value="al-jazeera-english">Al Jazeera English</option>
+                    <option value="bbc-news">BBC News</option>
+                    <option value="bbc-sport">BBC Sport</option>
+                    <option value="business-insider-uk">Business Insider (UK)</option>
+                    <option value="buzzfeed">Buzzfeed</option>
+                </select>
+            </div>
+            
+            <div id="output">
+                <h1 id="station"></h1>
+                <ul>
+                    <li>
+                <h4 id="headlines"></h4> 
+                <p id="story"> </p> 
+                <a href="#"> <span id="link"> </span></a>
+                    </li>
+                   
+                     <li>
+                <h4 id="headlines1"></h4> 
+                <p id="story1"> </p> 
+                <a href="#"> <span id="link1"> </span></a>
+                    </li>
+                    
+                      <li>
+                <h4 id="headlines2"></h4> 
+                <p id="story2"> </p> 
+                <a href="#"> <span id="link2"> </span></a>
+                    </li>
+                  
+                    
+                    
+                </ul>
+                
+                    
+            </div>
+        </div>
+        
+        <script>
+            var selector = document.getElementById('selector');
+            var headlines = document.getElementById('headlines');
+            var story = document.getElementById('story');
+            var link = document.getElementById('link');
+            
+            function selection(e){
+                console.log(e);
+                var station = e.target.selectedOptions[0].label;
+                var station_id = e.target.value;
+                
+                spooler(station, station_id);
+            }
+            
+            function spooler(hip, hop){
+                        var endpoint = 'https://newsapi.org/v1/articles?source=' + hop + '&apiKey=6728cb03140d4fc3966b9e0a8c8691dc';
+                
+                fetch(endpoint).then(function(blob){
+                    return blob.json();
+                }).then(function(data){
+                    
+                    station.innerText = hip;
+//                        for ( var i = 0; i <= 1; i++) {
+                         headlines.innerText = data.articles[0].title;
+                        story.innerText = data.articles[0].description;
+                        link.innerText = data.articles[0].url;
+                    
+                        headlines1.innerText = data.articles[1].title;
+                        story1.innerText = data.articles[1].description;
+                        link1.innerText = data.articles[1].url;
+                    
+                         headlines2.innerText = data.articles[2].title;
+                        story2.innerText = data.articles[2].description;
+                        link2.innerText = data.articles[2].url;
+//                        }
+                        
+            
+                    
+                    console.log(data);
+                });
+                    
+                }
+            
+            spooler('ABC News', 'abc-news-au');           
+            selector.addEventListener('change', selection);
+        </script>
+    
+    
+    </body>
+</html>
